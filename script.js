@@ -9,8 +9,11 @@ function convertToRoman(num) {
     6: ['I', 1]
   };
 
-  // Build full list with subtractive cases from obj
-  // CM = 900, CD = 400, XC = 90, XL = 40, IX = 9, IV = 4
+  // Input range check
+  if (typeof num !== 'number' || num < 1 || num > 3999 || !Number.isInteger(num)) {
+    return "Please enter a number between 1 and 3999";
+  }
+
   const values = [
     [obj[0][0], obj[0][1]], // M 1000
     [obj[2][0] + obj[0][0], 900], // CM
@@ -24,22 +27,40 @@ function convertToRoman(num) {
     [obj[6][0] + obj[4][0], 9], // IX
     [obj[5][0], obj[5][1]], // V 5
     [obj[6][0] + obj[5][0], 4], // IV
-    [obj[6][0], obj[6][1]]  // I 1
+    [obj[6][0], obj[6][1]] // I 1
   ];
 
   let result = '';
-
   for (let [symbol, value] of values) {
     while (num >= value) {
       result += symbol;
       num -= value;
     }
   }
-
   return result;
 }
 
-//console.log(convertToRoman(36)); // XXXVI
-//console.log(convertToRoman(4)); // IV
-//console.log(convertToRoman(9)); // IX
-//console.log(convertToRoman(1994)); // MCMXCIV
+// Call function and display result in HTML
+document.addEventListener('DOMContentLoaded', () => {
+  const result14 = convertToRoman(14); // XIV
+  const result798 = convertToRoman(798); // DCCXCVIII
+
+  console.log(convertToRoman(14));
+  console.log(convertToRoman(798));
+
+  // Show in HTML
+  const output = document.getElementById('result');
+  if (output) {
+    output.innerHTML = `14 = ${result14}<br>798 = ${result798}`;
+  }
+
+  // If separate elements exist
+  const el14 = document.getElementById('result-14');
+  if (el14) el14.textContent = result14;
+
+  const el798 = document.getElementById('result-798');
+  if (el798) el798.textContent = result798;
+});
+
+// do not edit below this line
+module.exports = convertToRoman
